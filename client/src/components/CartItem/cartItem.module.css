@@ -1,0 +1,7 @@
+.cartItemContainer {
+  display: flex;
+}
+
+.cartItemContainer img {
+  width: 200px;
+}

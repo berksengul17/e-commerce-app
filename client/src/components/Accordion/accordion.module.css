@@ -1,0 +1,28 @@
+.accordionItem {
+  margin-bottom: 5px;
+  padding: 10px 20px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.title span {
+  font-size: 1.5rem;
+}
+
+.content {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.15s ease-in-out;
+}
+
+.content.show {
+  max-height: 1000px;
+  opacity: 1;
+  transition: all 0.25s ease-in-out;
+}
