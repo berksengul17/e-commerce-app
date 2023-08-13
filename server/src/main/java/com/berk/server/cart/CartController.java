@@ -1,8 +1,8 @@
 package com.berk.server.cart;
 
+import com.berk.server.cartItem.CartItem;
 import com.berk.server.user.User;
 import com.berk.server.user.UserService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +30,17 @@ public class CartController {
         }
     }
 
+    @GetMapping("/{userId}/total-price")
+    public ResponseEntity<?> getTotalPrice(@PathVariable Long userId) {
+        try {
+            double totalPrice = cartService.calculateTotalCartPrice(userId);
+            return ResponseEntity.ok(totalPrice);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
     @PostMapping("/{userId}/create-cart")
     public ResponseEntity<?> createCart(@PathVariable Long userId) {
         try {
@@ -47,12 +58,45 @@ public class CartController {
         }
     }
 
-    @PostMapping("/{userId}/add")
+    @PostMapping("/{userId}/add/{productId}")
     public ResponseEntity<?> addItemToCart(@PathVariable Long userId,
-                                           @RequestBody CartItemRequest cartItemRequest) {
+                                           @PathVariable Long productId) {
         try {
-            Cart updatedCart = cartService.addItemToCart(userId, cartItemRequest);
+            CartItem cartItem = cartService.addItemToCart(userId, productId);
+            return ResponseEntity.ok(cartItem);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{userId}/remove/{itemId}")
+    public ResponseEntity<?> removeItemFromCart(@PathVariable Long userId, @PathVariable Long itemId) {
+        try {
+            Cart updatedCart = cartService.removeItemFromCart(userId, itemId);
             return ResponseEntity.ok(updatedCart);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{userId}/delete/{itemId}")
+    public ResponseEntity<?> deleteItemFromCart(@PathVariable Long userId, @PathVariable Long itemId) {
+        try {
+            Cart updatedCart = cartService.deleteItemFromCart(userId, itemId);
+            return ResponseEntity.ok(updatedCart);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{userId}/clear-cart")
+    public ResponseEntity<?> clearCart(@PathVariable Long userId) {
+        try {
+            cartService.clearCart(userId);
+            return ResponseEntity.ok("Cart has been cleared.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());

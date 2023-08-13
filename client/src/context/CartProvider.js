@@ -1,55 +1,106 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
+import { UserContext } from "./UserProvider";
+import {
+  getCartByUserId,
+  getTotalPrice,
+  addItemToCart,
+  removeItemFromCart,
+  deleleItemFromCart,
+  clearCartItems,
+} from "../api/cartService";
 
 export const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState({});
+  const { user } = useContext(UserContext);
+  const [cartItems, setCartItems] = useState([]);
   const [totalCartPrice, setTotalCartPrice] = useState(0);
 
+  useEffect(() => {
+    if (user != null) {
+      getCartByUserId(user.id)
+        .then((cart) => {
+          const cartItems = cart.cartItems;
+          setCartItems([...cartItems]);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user != null) {
+      getTotalPrice(user.id)
+        .then((totalPrice) => {
+          setTotalCartPrice(totalPrice);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [cartItems]);
+
   const addCartItem = (productId) => {
-    setCartItems((prev) => ({
-      ...prev,
-      [productId]: prev[productId] ? prev[productId] + 1 : 1,
-    }));
+    addItemToCart(user.id, productId)
+      .then((cartItem) => {
+        const existingCartItemIndex = cartItems.findIndex(
+          (item) => item.id === cartItem.id
+        );
+
+        if (existingCartItemIndex !== -1) {
+          const updatedCartItems = [...cartItems];
+          updatedCartItems[existingCartItemIndex].quantity += 1;
+          setCartItems(updatedCartItems);
+        } else {
+          setCartItems((prevCartItems) => [...prevCartItems, cartItem]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const removeCartItem = (productId) => {
-    setCartItems((prev) => ({ ...prev, [productId]: prev[productId] - 1 }));
+    const cartItem = getCartItemByProductId(productId);
+    removeItemFromCart(user.id, cartItem.id)
+      .then((updatedCart) => {
+        const updatedCartItems = updatedCart.cartItems;
+        setCartItems([...updatedCartItems]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const updateCartItemCount = (newAmount, productId) => {
-    setCartItems((prev) => ({ ...prev, [productId]: newAmount }));
+  const deleteCartItem = (productId) => {
+    const cartItem = getCartItemByProductId(productId);
+    deleleItemFromCart(user.id, cartItem.id)
+      .then((updatedCart) => {
+        const updatedCartItems = updatedCart.cartItems;
+        setCartItems([...updatedCartItems]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  // const getTotalCartPrice = async () => {
-  //   let totalPrice = 0;
-  //   const promises = [];
+  const clearCart = (userId) => {
+    clearCartItems(userId)
+      .then((data) => {
+        setCartItems([]);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  //   for (const item in cartItems) {
-  //     // if bloğu kaldırılabilir
-  //     // eğer 0 dan büyük olacağı garanti olursa ki öyle gibi
-  //     if (cartItems[item] > 0) {
-  //       const promise = getProductById(item)
-  //         .then((product) => {
-  //           console.log("product", product);
-  //           console.log("item", cartItems[item]);
-  //           totalPrice += cartItems[item] * product.price;
-  //         })
-  //         .catch((error) => {
-  //           console.log(
-  //             "Error while calculating the total cart price: ",
-  //             error
-  //           );
-  //         });
-
-  //       promises.push(promise);
-  //     }
-  //   }
-
-  //   await Promise.all(promises);
-
-  //   return totalPrice;
-  // };
+  const getCartItemByProductId = (productId) => {
+    if (cartItems) {
+      return cartItems.find((cartItem) => cartItem.product.id === productId);
+    }
+  };
 
   return (
     <CartContext.Provider
@@ -57,9 +108,10 @@ export const CartProvider = ({ children }) => {
         cartItems,
         addCartItem,
         removeCartItem,
-        updateCartItemCount,
+        deleteCartItem,
+        clearCart,
         totalCartPrice,
-        setTotalCartPrice,
+        getCartItemByProductId,
       }}
     >
       {children}

@@ -19,10 +19,12 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItems;
 

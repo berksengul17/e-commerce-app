@@ -2,34 +2,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 30px 50px;
+  background-color: black;
 }
 
 .header a {
   text-decoration: none;
-  color: black;
 }
 
-.buttonContainer button {
-  background-color: transparent;
-  border: 2px solid rgb(19, 19, 19);
-  min-width: 100px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 10px;
-  margin: auto;
+.icon {
+  color: white;
+}
+
+.userContainer .icon {
+  margin-right: 20px;
 }
 
 .buttonContainer button:first-child {
   margin-right: 20px;
-}
-
-.buttonContainer button:hover {
-  background-color: rgb(19, 19, 19);
-  color: white;
-  cursor: pointer;
 }
 
 .userContainer {

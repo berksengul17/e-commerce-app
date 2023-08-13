@@ -1,23 +1,23 @@
 import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
-import { login } from "../../api/loginService";
+import { login } from "../../api/userService";
 import { UserContext } from "../../context/UserProvider";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import styles from "./login.module.css";
 
 function Login() {
-  const { setUser } = useContext(UserContext);
+  const { loginUser } = useContext(UserContext);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const onSubmit = (userCredentials, { resetForm, setSubmitting }) => {
+  const onSubmit = (userCredentials, { setSubmitting }) => {
     login(userCredentials)
       .then((data) => {
-        setUser(data);
-        resetForm();
-        // replace history
-        navigate(-1);
+        console.log(data);
+        loginUser(data);
+        navigate("/", { replace: true });
       })
       .catch((error) => {
         setError(error);
@@ -40,6 +40,7 @@ function Login() {
     <div className={styles.loginContainer}>
       <h1>Login</h1>
       <div>{error ? error : ""}</div>
+      <div>{location.state ? location.state : ""}</div>
       <form onSubmit={handleSubmit} className={styles.loginForm}>
         <input
           id="email"

@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import { CartContext } from "../../context/CartProvider";
+import styles from "./quantityPicker.module.css";
 
-function QuantityPicker({ id }) {
-  const { cartItems, addCartItem, removeCartItem } = useContext(CartContext);
+function QuantityPicker({ id, quantity }) {
+  const { addCartItem, removeCartItem } = useContext(CartContext);
 
   const decrement = () => {
     removeCartItem(id);
@@ -12,9 +13,9 @@ function QuantityPicker({ id }) {
   };
 
   return (
-    <div>
-      {cartItems[id] > 1 && <button onClick={decrement}>-</button>}
-      <input type="text" value={cartItems[id]} readOnly />
+    <div className={styles.quantityPicker}>
+      {quantity > 0 && <button onClick={decrement}>&minus;</button>}
+      <input type="text" value={quantity} readOnly />
       <button onClick={increment}>+</button>
     </div>
   );

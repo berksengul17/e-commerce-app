@@ -8,20 +8,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/login")
-public class LoginController {
+@RequestMapping("api/user")
+public class UserController {
 
     private final UserService userService;
 
-    public LoginController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @PostMapping
-    public ResponseEntity<String> login(@RequestBody User request) {
+    @PostMapping("/signup")
+    public ResponseEntity<String> signUp(@RequestBody User request) {
         try {
-            String loggedInUser = userService.loginUser(request);
-            if(!loggedInUser.equals("")) {
+            userService.signUpUser(request);
+            return ResponseEntity.ok("User signed up successfully");
+        } catch(IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User request) {
+        try {
+            User loggedInUser = userService.loginUser(request);
+            if(loggedInUser != null) {
                 return ResponseEntity.ok(loggedInUser);
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

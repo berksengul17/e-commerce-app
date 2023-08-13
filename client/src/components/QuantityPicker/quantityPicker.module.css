@@ -1,0 +1,21 @@
+.quantityPicker input {
+  width: 40px;
+  padding: 5px 10px;
+  text-align: center;
+  border: none;
+  outline: 1px solid black;
+}
+
+.quantityPicker button {
+  padding: 5px 10px;
+  border: none;
+  outline: 1px solid black;
+}
+
+.quantityPicker button:first-child {
+  border-radius: 2px 0px 0px 2px;
+}
+
+.quantityPicker button:last-child {
+  border-radius: 0px 2px 2px 0px;
+}

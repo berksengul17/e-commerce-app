@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getProductById } from "../../api/productService";
 import Accordion from "../../components/Accordion";
 import styles from "./productDetails.module.css";
 import Button from "../../components/Button";
+import AddToCartButton from "../../components/AddToCartButton";
 
 function ProductDetails() {
   const [product, setProduct] = useState();
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProduct();
@@ -26,16 +26,19 @@ function ProductDetails() {
 
   return (
     <div>
-      <Button onClick={() => navigate(-1)} text="Go back" />
       {product && (
         <div className={styles.productContainer}>
           <div className="image-container">
             <img src={product.image} alt="product image" />
           </div>
-          <div>
+          <div className={styles.productInfo}>
             <h1>{product.name}</h1>
-            <div className="product-info">
+            <div>
               <h2>${product.price}</h2>
+              <AddToCartButton
+                additionalClasses={styles.addToCartBtn}
+                productId={product.id}
+              />
               <Accordion data={product.description} />
             </div>
           </div>

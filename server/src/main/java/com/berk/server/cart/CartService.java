@@ -1,9 +1,9 @@
 package com.berk.server.cart;
 
 import com.berk.server.cartItem.CartItem;
-import com.berk.server.cartItem.CartItemRepository;
+import com.berk.server.cartItem.CartItemService;
 import com.berk.server.product.Product;
-import com.berk.server.product.ProductRepository;
+import com.berk.server.product.ProductService;
 import com.berk.server.user.User;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +13,14 @@ import java.util.List;
 public class CartService {
 
     private final CartRepository cartRepository;
-    private final CartItemRepository cartItemRepository;
-    private final ProductRepository productRepository;
+    private final CartItemService cartItemService;
+    private final ProductService productService;
 
-    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, ProductRepository productRepository) {
+    public CartService(CartRepository cartRepository,
+                       CartItemService cartItemService, ProductService productService) {
         this.cartRepository = cartRepository;
-        this.cartItemRepository = cartItemRepository;
-        this.productRepository = productRepository;
-    }
-
-    public Cart getCartById(Long cartId) {
-        return cartRepository.findById(cartId)
-                .orElseThrow(() ->
-                        new IllegalArgumentException("Cart with the id " + cartId + " is not found."));
+        this.cartItemService = cartItemService;
+        this.productService = productService;
     }
 
     public Cart getCartByUserId(Long userId) {
@@ -45,28 +40,68 @@ public class CartService {
         return null;
     }
 
-    public List<CartItem> getCartItems(User user) {
-        Cart cart = user.getCart();
-        if (cart != null) {
-            return cart.getCartItems();
+    public CartItem addItemToCart(Long userId, Long productId) {
+        Cart cart = getCartByUserId(userId);
+        List<CartItem> cartItems = cart.getCartItems();
+        CartItem cartItem = cartItems.stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst()
+                .orElse(null);
+
+        Product product = productService.getProductById(productId);
+
+        if (cartItem == null) {
+            CartItem newCartItem = new CartItem(1, cart, product);
+            cartItems.add(newCartItem);
+            return cartItemService.createCartItem(newCartItem);
         }
-        return null;
+        Long id = cartItem.getId();
+        int quantity = cartItem.getQuantity();
+        return cartItemService.updateCartItem(id, quantity + 1);
     }
 
-    public Cart addItemToCart(Long userId, CartItemRequest request) {
+    public Cart removeItemFromCart(Long userId, Long itemId) {
         Cart cart = getCartByUserId(userId);
+        List<CartItem> cartItems = cart.getCartItems();
+        CartItem cartItem = cartItemService.getCartItemById(itemId);
 
-        Product product = request.getProduct(productRepository);
-        int quantity = request.getQuantity();
-        CartItem cartItem = new CartItem(quantity, cart, product);
-        cartItemRepository.save(cartItem);
-        cart.getCartItems().add(cartItem);
+        int quantity = cartItem.getQuantity();
+        if (quantity > 1) {
+            Long id = cartItem.getId();
+            cartItem.setQuantity(quantity - 1);
+            cartItemService.updateCartItem(id, quantity - 1);
+        } else {
+            cartItems.remove(cartItem);
+            cartItemService.deleteCartItem(cartItem);
+        }
 
+        cartRepository.save(cart);
         return cart;
     }
 
-    public double calculateTotalCartPrice(User user) {
-        List<CartItem> cartItems = getCartItems(user);
+    public Cart deleteItemFromCart(Long userId, Long itemId) {
+        Cart cart = getCartByUserId(userId);
+        List<CartItem> cartItems = cart.getCartItems();
+        CartItem cartItem = cartItemService.getCartItemById(itemId);
+
+        cartItems.remove(cartItem);
+        cartItemService.deleteCartItem(cartItem);
+
+        cartRepository.save(cart);
+        return cart;
+    }
+
+    public void clearCart(Long userId) {
+        Cart cart = getCartByUserId(userId);
+        List<CartItem> cartItems = cart.getCartItems();
+
+        cartItems.clear();
+        cartItemService.deleteAllByCartId(cart.getId());
+        cartRepository.save(cart);
+    }
+    public double calculateTotalCartPrice(Long userId) {
+        Cart cart = getCartByUserId(userId);
+        List<CartItem> cartItems = cart.getCartItems();
         double total = 0;
 
         if (cartItems != null) {
@@ -77,22 +112,5 @@ public class CartService {
         }
 
         return total;
-    }
-
-    public void removeItemFromCart(User user, Product product) {
-        Cart cart = user.getCart();
-        if (cart != null) {
-            List<CartItem> cartItems = cart.getCartItems();
-            CartItem cartItemToRemove = cartItems.stream()
-                    .filter(item -> item.getProduct().equals(product))
-                    .findFirst()
-                    .orElse(null);
-
-            if (cartItemToRemove != null) {
-                cartItems.remove(cartItemToRemove);
-                cartItemRepository.delete(cartItemToRemove);
-                cartRepository.save(cart);
-            }
-        }
     }
 }

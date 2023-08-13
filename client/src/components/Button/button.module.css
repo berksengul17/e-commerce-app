@@ -1,6 +1,5 @@
 .customButton {
   background-color: transparent;
-  border: 2px solid rgb(19, 19, 19);
   min-width: 100px;
   padding-left: 10px;
   padding-right: 10px;
@@ -10,8 +9,24 @@
   margin: auto;
 }
 
-.customButton:hover {
+.customButton.light {
+  border: 2px solid rgb(19, 19, 19);
+  color: rgb(19, 19, 19);
+}
+
+.customButton.dark {
+  border: 2px solid white;
+  color: white;
+}
+
+.customButton.light:hover {
   background-color: rgb(19, 19, 19);
   color: white;
+  cursor: pointer;
+}
+
+.customButton.dark:hover {
+  background-color: white;
+  color: rgb(19, 19, 19);
   cursor: pointer;
 }
