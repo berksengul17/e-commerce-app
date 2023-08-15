@@ -60,6 +60,10 @@ public class CartService {
         return cartItemService.updateCartItem(id, quantity + 1);
     }
 
+    // TODO make the remove item from cart method only about decreasing
+    // do the deletion operation with delete item from cart method
+    // this can be handled in the frontend
+
     public Cart removeItemFromCart(Long userId, Long itemId) {
         Cart cart = getCartByUserId(userId);
         List<CartItem> cartItems = cart.getCartItems();
@@ -68,6 +72,7 @@ public class CartService {
         int quantity = cartItem.getQuantity();
         if (quantity > 1) {
             Long id = cartItem.getId();
+            // TODO is this really necessary?
             cartItem.setQuantity(quantity - 1);
             cartItemService.updateCartItem(id, quantity - 1);
         } else {
@@ -99,6 +104,7 @@ public class CartService {
         cartItemService.deleteAllByCartId(cart.getId());
         cartRepository.save(cart);
     }
+
     public double calculateTotalCartPrice(Long userId) {
         Cart cart = getCartByUserId(userId);
         List<CartItem> cartItems = cart.getCartItems();

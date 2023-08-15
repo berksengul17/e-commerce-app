@@ -17,11 +17,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signUp")
     public ResponseEntity<String> signUp(@RequestBody User request) {
         try {
-            userService.signUpUser(request);
-            return ResponseEntity.ok("User signed up successfully");
+            User newUser = userService.signUpUser(request);
+            String fullName = newUser.getFirstName() + " " + newUser.getLastName();
+            return ResponseEntity.ok(fullName + " signed up successfully");
         } catch(IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());
@@ -30,17 +31,12 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User request) {
-        try {
-            User loggedInUser = userService.loginUser(request);
-            if(loggedInUser != null) {
-                return ResponseEntity.ok(loggedInUser);
-            } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Username or password is wrong");
-            }
-        } catch(IllegalArgumentException e) {
+        User loggedInUser = userService.loginUser(request);
+        if(loggedInUser != null) {
+            return ResponseEntity.ok(loggedInUser);
+        } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(e.getMessage());
+                    .body("Email or password is wrong");
         }
     }
 }

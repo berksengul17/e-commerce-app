@@ -22,7 +22,15 @@ public class User{
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
-    public User(String firstName, String lastName, String email, String password) {
+    public User(Long id, String firstName, String lastName, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public User(Long id, String firstName, String lastName, String email, String password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -37,4 +45,8 @@ public class User{
         this.cart = cart;
     }
 
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }
