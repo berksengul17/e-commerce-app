@@ -22,20 +22,20 @@ public class CartItemService {
     }
 
     public CartItem createCartItem(CartItem cartItem) {
-        Product product = cartItem.getProduct();
-        Optional<CartItem> optionalCartItem =
-                cartItemRepository.findCartItemByProduct(product);
-
-        // if the card item with the given product exists
-        if (optionalCartItem.isPresent()) {
-            Cart cart = optionalCartItem.get().getCart();
-            // and if the id of the cart item's cart is equal to the
-            // id of the found cart item's cart then throw an error
-            if (cart.getId().equals(cartItem.getCart().getId())) {
-                throw new IllegalArgumentException(
-                    "Cart item with product id " + product.getId() + " already exists.");
-            }
-        }
+//        Product product = cartItem.getProduct();
+//        Optional<CartItem> optionalCartItem =
+//                cartItemRepository.findCartItemByProduct(product);
+//
+//        // if the card item with the given product exists
+//        if (optionalCartItem.isPresent()) {
+//            Cart cart = optionalCartItem.get().getCart();
+//            // and if the id of the cart item's cart is equal to the
+//            // id of the found cart item's cart then throw an error
+//            if (cart.getId().equals(cartItem.getCart().getId())) {
+//                throw new IllegalArgumentException(
+//                    "Cart item with product id " + product.getId() + " already exists.");
+//            }
+//        }
 
         return cartItemRepository.save(cartItem);
     }
