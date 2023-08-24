@@ -15,7 +15,6 @@ function Login() {
   const onSubmit = (userCredentials, { setSubmitting }) => {
     login(userCredentials)
       .then((data) => {
-        console.log(data);
         loginUser(data);
         navigate("/", { replace: true });
       })
@@ -27,19 +26,18 @@ function Login() {
       });
   };
 
-  const { handleSubmit, handleChange, values, touched, errors, isSubmitting } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-      },
-      onSubmit,
-    });
+  const { handleSubmit, handleChange, values, isSubmitting } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit,
+  });
 
   return (
     <div className={styles.loginContainer}>
       <h1>Login</h1>
-      <div>{error ? error : ""}</div>
+      <div className={styles.errorMessage}>{error ? error : ""}</div>
       <div>{location.state ? location.state : ""}</div>
       <form onSubmit={handleSubmit} className={styles.loginForm}>
         <input
@@ -50,9 +48,6 @@ function Login() {
           onChange={handleChange}
           value={values.email}
         />
-        {touched.email && errors.email && (
-          <div className={styles.errorMessage}>{errors.email}</div>
-        )}
 
         <input
           id="password"
@@ -62,9 +57,6 @@ function Login() {
           onChange={handleChange}
           value={values.password}
         />
-        {touched.password && errors.password && (
-          <div className={styles.errorMessage}>{errors.password}</div>
-        )}
 
         <Button
           type="submit"

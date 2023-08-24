@@ -16,7 +16,7 @@ function App() {
   const location = useLocation();
 
   return (
-    <div className="App">
+    <div>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -26,7 +26,7 @@ function App() {
           element={!user ? <Login /> : <Navigate to=".." replace={true} />}
         />
         <Route
-          path="/signup"
+          path="/signUp"
           element={!user ? <SignUp /> : <Navigate to=".." replace={true} />}
         />
         <Route

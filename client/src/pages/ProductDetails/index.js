@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../api/productService";
 import Accordion from "../../components/Accordion";
-import styles from "./productDetails.module.css";
-import Button from "../../components/Button";
 import AddToCartButton from "../../components/AddToCartButton";
+import styles from "./productDetails.module.css";
 
 function ProductDetails() {
   const [product, setProduct] = useState();
@@ -29,7 +28,7 @@ function ProductDetails() {
       {product && (
         <div className={styles.productContainer}>
           <div className="image-container">
-            <img src={product.image} alt="product image" />
+            <img src={product.image} alt="product" />
           </div>
           <div className={styles.productInfo}>
             <h1>{product.name}</h1>
@@ -39,7 +38,7 @@ function ProductDetails() {
                 additionalClasses={styles.addToCartBtn}
                 productId={product.id}
               />
-              <Accordion data={product.description} />
+              <Accordion data={product.description} data-testid="accordion" />
             </div>
           </div>
         </div>

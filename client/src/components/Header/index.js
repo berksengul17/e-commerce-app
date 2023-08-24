@@ -22,7 +22,12 @@ function Header() {
   return (
     <div className={styles.header}>
       <Link to="/">
-        <FontAwesomeIcon className={styles.icon} icon={faHouse} size="2x" />
+        <FontAwesomeIcon
+          data-testid="house-icon"
+          className={styles.icon}
+          icon={faHouse}
+          size="2x"
+        />
       </Link>
       {/* If a user is logged in display the welcome message
           else show the login and sign up button unless it is
@@ -31,6 +36,7 @@ function Header() {
         <div className={styles.userContainer}>
           <Link to="/cart">
             <FontAwesomeIcon
+              data-testid="cart-icon"
               className={styles.icon}
               icon={faShoppingCart}
               size="xl"
@@ -49,7 +55,7 @@ function Header() {
             />
             <Button
               text="Sign up"
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/signUp")}
               theme="dark"
             />
           </div>

@@ -81,7 +81,7 @@ function Checkout() {
               <p>
                 {cartItem.quantity} x {cartItem.product.name}
               </p>
-              <p>${cartItem.quantity * cartItem.product.price}</p>
+              <p>${(cartItem.quantity * cartItem.product.price).toFixed(2)}</p>
             </div>
           ))}
         </div>
@@ -124,15 +124,13 @@ function Checkout() {
               onChange={handleChange}
               value={values.expirationYear}
             />
-            {touched.expirationMonth && errors.expirationMonth && (
-              <div className={styles.errorMessage}>
-                {errors.expirationMonth}
-              </div>
-            )}
-            {touched.expirationYear && errors.expirationYear && (
-              <div className={styles.errorMessage}>{errors.expirationYear}</div>
-            )}
           </div>
+          {touched.expirationMonth && errors.expirationMonth && (
+            <div className={styles.errorMessage}>{errors.expirationMonth}</div>
+          )}
+          {touched.expirationYear && errors.expirationYear && (
+            <div className={styles.errorMessage}>{errors.expirationYear}</div>
+          )}
           <input
             id="cvv"
             type="text"
@@ -149,7 +147,7 @@ function Checkout() {
           <input
             id="address"
             type="text"
-            placeholder="Adress"
+            placeholder="Address"
             onBlur={handleBlur}
             onChange={handleChange}
             value={values.address}

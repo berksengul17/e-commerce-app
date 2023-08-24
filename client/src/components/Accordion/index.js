@@ -22,7 +22,6 @@ function Accordion({ data }) {
           return item !== index;
         })
       );
-      console.log(selectedItems);
     } else {
       setSelectedItems([index, ...selectedItems]);
     }
