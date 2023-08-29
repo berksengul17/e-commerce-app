@@ -4,6 +4,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { getProductById } from "../../api/productService";
 import AddToCartButton from "../../components/AddToCartButton";
 import Accordion from "../../components/Accordion";
+import { ScrollView } from "react-native";
 
 function ProductDetails() {
   const [product, setProduct] = useState();
@@ -24,38 +25,55 @@ function ProductDetails() {
   };
 
   return (
-    <View>
-      <Stack.Screen options={{ headerTitle: `Details #${id}` }} />
-      {product && (
-        <View>
-          <View>
-            <Image
-              source={{ uri: product.image }}
-              style={{ width: "100%", height: 500 }}
-            />
-          </View>
-          <View>
-            <Text>{product.name}</Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <Stack.Screen options={{ headerTitle: ``, statusBarHidden: true }} />
+        {product && (
+          <View styles={styles.productContainer}>
             <View>
-              <Text>${product.price}</Text>
-              <AddToCartButton
-                style={styles.addToCartBtn}
-                productId={product.id}
+              <Image
+                source={{ uri: product.image }}
+                style={{ width: "100%", height: 500, resizeMode: "contain" }}
               />
-              <Accordion data={product.description} />
+            </View>
+            <View>
+              <Text style={styles.productInfo}>{product.name}</Text>
+              <View>
+                <Text style={styles.productInfo}>${product.price}</Text>
+                <AddToCartButton
+                  style={styles.addToCartBtn}
+                  textStyle={{ fontSize: 18, fontWeight: "bold" }}
+                  productId={product.id}
+                />
+                <Accordion data={product.description} />
+              </View>
             </View>
           </View>
-        </View>
-      )}
-    </View>
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 20,
+    marginVertical: 10,
+  },
+  productContainer: {
+    padding: 20,
+    margin: 20,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "black",
+  },
+  productInfo: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
   addToCartBtn: {
     width: "100%",
     padding: 10,
-    fontSize: 18,
     marginVertical: 20,
     marginHorizontal: 0,
   },

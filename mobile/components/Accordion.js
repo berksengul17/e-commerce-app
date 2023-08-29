@@ -37,8 +37,8 @@ function Accordion({ data }) {
               style={styles.contentToggler}
               onPress={() => toggle(index)}
             >
-              <Text>{getKey(item)}</Text>
-              <Text>+</Text>
+              <Text style={styles.accordionItemHeader}>{getKey(item)}</Text>
+              <Text style={styles.accordionItemHeader}>+</Text>
             </TouchableOpacity>
           </View>
           <View
@@ -61,17 +61,19 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     paddingTop: 10,
   },
-  title: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
   contentToggler: {
     flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  accordionItemHeader: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
   content: {
     overflow: "hidden",
     maxHeight: 0,
     opacity: 0,
+    paddingLeft: 20,
   },
   show: {
     maxHeight: 10000,

@@ -5,7 +5,7 @@ import { UserContext } from "../context/UserProvider";
 import { CartContext } from "../context/CartProvider";
 import CustomButton from "./CustomButton";
 
-function AddToCartButton({ style, productId }) {
+function AddToCartButton({ style, textStyle, productId }) {
   const { user } = useContext(UserContext);
   const { addCartItem, getCartItemByProductId } = useContext(CartContext);
 
@@ -24,6 +24,7 @@ function AddToCartButton({ style, productId }) {
     <>
       <CustomButton
         style={style}
+        textStyle={textStyle}
         title={
           cartItemCount > 0 && user
             ? `Add to Cart (${cartItemCount})`

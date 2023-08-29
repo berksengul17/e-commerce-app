@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "743668528908",
+    "project_id": "e-commerce-ecad7",
+    "storage_bucket": "e-commerce-ecad7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743668528908:android:100ed3190962055484fb29",
+        "android_client_info": {
+          "package_name": "com.berk.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743668528908-2s0ik07d4ikdv40o67feufkg26jbrph5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLmhZ967Asp3lauNypHMNKpxQva6FJ_w8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743668528908-2s0ik07d4ikdv40o67feufkg26jbrph5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

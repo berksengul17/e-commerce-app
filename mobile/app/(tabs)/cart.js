@@ -18,11 +18,14 @@ function Cart() {
         renderItem={({ item }) => <CartItem cartItem={item} />}
       />
       <View style={styles.checkoutContainer}>
-        <Text>
+        <Text style={styles.totalPrice}>
           Total price: ${(Math.round(totalCartPrice * 100) / 100).toFixed(2)}
         </Text>
-        <Link href="/checkout">
-          <CustomButton title="Checkout" />
+        <Link href="/checkout" disabled={cartItems.length == 0 ? true : false}>
+          <CustomButton
+            title="Checkout"
+            disabled={cartItems.length == 0 ? true : false}
+          />
         </Link>
       </View>
     </View>
@@ -47,6 +50,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 50,
+  },
+  totalPrice: {
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
 

@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React, { useContext } from "react";
 import { Tabs } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
@@ -7,10 +6,13 @@ import { UserContext } from "../../context/UserProvider";
 const TabLayout = () => {
   const { user } = useContext(UserContext);
 
-  const screens = [];
-
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: "#007AFF",
+        tabBarInactiveTintColor: "black",
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{
@@ -18,10 +20,15 @@ const TabLayout = () => {
           tabBarLabel: "Home",
           tabBarLabelStyle: {
             fontSize: 12,
-            color: "black",
             fontWeight: "bold",
           },
-          tabBarIcon: () => <FontAwesome name="home" size={24} />,
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome
+              name="home"
+              color={focused ? "#007AFF" : "black"}
+              size={24}
+            />
+          ),
         }}
       />
 
@@ -33,10 +40,15 @@ const TabLayout = () => {
           tabBarLabel: "Cart",
           tabBarLabelStyle: {
             fontSize: 12,
-            color: "black",
             fontWeight: "bold",
           },
-          tabBarIcon: () => <FontAwesome name="shopping-cart" size={24} />,
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome
+              name="shopping-cart"
+              color={focused ? "#007AFF" : "black"}
+              size={24}
+            />
+          ),
         }}
       />
 
@@ -47,10 +59,15 @@ const TabLayout = () => {
           tabBarLabel: "Profile",
           tabBarLabelStyle: {
             fontSize: 12,
-            color: "black",
             fontWeight: "bold",
           },
-          tabBarIcon: () => <FontAwesome name="user" size={24} />,
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome
+              name="user"
+              color={focused ? "#007AFF" : "black"}
+              size={24}
+            />
+          ),
         }}
       />
     </Tabs>

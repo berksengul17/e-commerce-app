@@ -19,7 +19,6 @@ function Login() {
     login(userCredentials)
       .then((data) => {
         loginUser(data);
-        console.log(data);
         router.push("/home");
       })
       .catch((error) => {
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: 50,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   inputView: {
     width: "80%",

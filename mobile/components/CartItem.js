@@ -15,7 +15,7 @@ function CartItem({ cartItem }) {
         <View style={styles.itemContainer}>
           <Image source={{ uri: product.image }} style={styles.itemImage} />
           <View style={styles.textContainer}>
-            <Text>{product.name}</Text>
+            <Text style={styles.itemName}>{product.name}</Text>
             <Pressable
               style={({ pressed }) => [
                 styles.deleteBtn,
@@ -53,6 +53,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
     borderRadius: 5,
   },
+  itemName: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
   deleteBtn: {
     alignSelf: "flex-end",
   },
@@ -62,6 +66,8 @@ const styles = StyleSheet.create({
   },
   priceText: {
     alignSelf: "flex-end",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
 

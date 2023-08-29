@@ -1,12 +1,18 @@
-import { View, Text, Button, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-function CustomButton({ title, onPress, style }) {
+function CustomButton({ title, onPress, style, textStyle, disabled }) {
   return (
     <>
-      <TouchableOpacity style={[styles.customButton, style]} onPress={onPress}>
-        <Text>{title}</Text>
+      <TouchableOpacity
+        style={[styles.customButton, style, disabled ? styles.disabledBtn : ""]}
+        onPress={onPress}
+        disabled={disabled ? disabled : false}
+      >
+        <Text style={[textStyle, disabled ? styles.disabledText : ""]}>
+          {title}
+        </Text>
       </TouchableOpacity>
     </>
   );
@@ -26,6 +32,14 @@ const styles = StyleSheet.create({
     borderColor: "rgb(19,19,19)",
     color: "rgb(19,19,19)",
     alignItems: "center",
+  },
+  disabledBtn: {
+    borderWidth: 2,
+    borderStyle: "solid",
+    borderColor: "gray",
+  },
+  disabledText: {
+    color: "gray",
   },
 });
 

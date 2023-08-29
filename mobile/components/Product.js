@@ -28,11 +28,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: "#e6e6e6",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "white",
     margin: 5,
     borderRadius: 5,
+    padding: 5,
   },
   productCard: {
     width: cardWidth,
