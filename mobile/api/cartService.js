@@ -1,6 +1,7 @@
 import axios from "axios";
+import { REACT_APP_BACKEND_URL } from "@env";
 
-const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api/carts`;
+const API_URL = `${REACT_APP_BACKEND_URL}/api/carts`;
 
 export const getCartByUserId = async (userId) => {
   try {
