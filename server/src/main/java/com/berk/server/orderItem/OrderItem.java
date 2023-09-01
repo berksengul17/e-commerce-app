@@ -1,6 +1,7 @@
-package com.berk.server.cartItem;
+package com.berk.server.orderItem;
 
 import com.berk.server.cart.Cart;
+import com.berk.server.order.Order;
 import com.berk.server.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -12,24 +13,25 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItem {
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private int quantity;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public CartItem(int quantity, Cart cart, Product product) {
+    public OrderItem(int quantity, Order order, Product product) {
         this.quantity = quantity;
-        this.cart = cart;
+        this.order = order;
         this.product = product;
     }
 }

@@ -1,10 +1,14 @@
 package com.berk.server.user;
 
 import com.berk.server.cart.Cart;
+import com.berk.server.order.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.berk.server.token.Token;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +25,10 @@ public class User{
     private String password;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Token> tokens;
 
     public User(Long id, String firstName, String lastName, String email) {
         this.id = id;
@@ -48,5 +56,9 @@ public class User{
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
     }
 }

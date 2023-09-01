@@ -30,6 +30,7 @@ public class UserService {
 
         Cart cart = new Cart(user);
         user.setCart(cart);
+        System.out.println(cart.getUser().getFirstName());
         return userRepository.save(user);
     }
 
