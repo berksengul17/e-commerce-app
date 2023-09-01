@@ -15,6 +15,7 @@ export const getCartByUserId = async (userId) => {
 export const addItemToCart = async (userId, productId) => {
   try {
     const response = await axios.post(`${API_URL}/${userId}/add/${productId}`);
+    console.log(response);
     return response.data;
   } catch (error) {
     throw error.response.data;

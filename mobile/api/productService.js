@@ -7,6 +7,7 @@ const API_URL = `${REACT_APP_BACKEND_URL}/api/products`;
 export const getAllProducts = async () => {
   try {
     const response = await axios.get(API_URL);
+    console.log(response);
     return response.data;
   } catch (error) {
     throw error.response.data;

@@ -18,6 +18,7 @@ function Login() {
     console.log(userCredentials);
     login(userCredentials)
       .then((data) => {
+        console.log("DATA: ", data);
         loginUser(data);
         router.push("/home");
       })
@@ -30,7 +31,7 @@ function Login() {
     <View style={styles.container}>
       <Text style={styles.title}> Login</Text>
       <View style={styles.errorMessage}>
-        <Text>{error ? error : ""}</Text>
+        {/* <Text>{error ? error : ""}</Text> */}
       </View>
       <View style={styles.inputView}>
         <TextInput

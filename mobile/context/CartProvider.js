@@ -8,6 +8,7 @@ import {
   deleleItemFromCart,
   clearCartItems,
 } from "../api/cartService";
+import { createOrder } from "../api/orderService";
 
 export const CartContext = createContext(null);
 
@@ -42,8 +43,10 @@ export const CartProvider = ({ children }) => {
   }, [cartItems]);
 
   const addCartItem = (productId) => {
+    console.log("add item ", productId);
     addItemToCart(user.id, productId)
       .then((cartItem) => {
+        console.log("cart item ", cartItem);
         const existingCartItemIndex = cartItems.findIndex(
           (item) => item.id === cartItem.id
         );
@@ -96,6 +99,16 @@ export const CartProvider = ({ children }) => {
       });
   };
 
+  const createOrderFromCart = (token) => {
+    createOrder(user.id, cartItems, token)
+      .then((order) => {
+        console.log("order", order);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const getCartItemByProductId = (productId) => {
     if (cartItems) {
       return cartItems.find((cartItem) => cartItem.product.id === productId);
@@ -110,6 +123,7 @@ export const CartProvider = ({ children }) => {
         removeCartItem,
         deleteCartItem,
         clearCart,
+        createOrderFromCart,
         totalCartPrice,
         getCartItemByProductId,
       }}

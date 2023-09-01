@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "743668528908-eejljp1re2u88ph44226ierlp6s7pctv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.berk.ecommerce",
+            "certificate_hash": "b27d21901387d45ec28e4f1f13f4561e413450f2"
+          }
+        },
+        {
+          "client_id": "743668528908-t7ju12fd3g3t5rr9mphmd6k47m96im4t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.berk.ecommerce",
+            "certificate_hash": "6399bac476ce2920f345f31b9f6debb974230334"
+          }
+        },
+        {
           "client_id": "743668528908-2s0ik07d4ikdv40o67feufkg26jbrph5.apps.googleusercontent.com",
           "client_type": 3
         }

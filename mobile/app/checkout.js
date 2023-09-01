@@ -1,15 +1,11 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
-import React, { useContext, useState, useEffect } from "react";
 import { router } from "expo-router";
-import { UserContext } from "../context/UserProvider";
-import { CartContext } from "../context/CartProvider";
-import CustomButton from "../components/CustomButton";
-import {
-  registerForPushNotificationsAsync,
-  sendPushNotification,
-} from "../api/notification";
 import { Formik } from "formik";
+import React, { useContext } from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import * as yup from "yup";
+import CustomButton from "../components/CustomButton";
+import { CartContext } from "../context/CartProvider";
+import { UserContext } from "../context/UserProvider";
 
 const validationSchema = yup.object({
   creditCardNumber: yup.string().required("Credit card number is required"),
@@ -20,20 +16,13 @@ const validationSchema = yup.object({
 });
 
 function Checkout() {
-  const { user } = useContext(UserContext);
-  const { cartItems, totalCartPrice, clearCart } = useContext(CartContext);
-
-  const [expoPushToken, setExpoPushToken] = useState("");
-
-  useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
-    );
-  }, []);
+  const { user, token } = useContext(UserContext);
+  const { cartItems, totalCartPrice, clearCart, createOrderFromCart } =
+    useContext(CartContext);
 
   const handleCheckout = () => {
-    sendPushNotification(expoPushToken);
     clearCart(user.id);
+    createOrderFromCart(token);
     router.push("/home");
   };
 

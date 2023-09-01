@@ -27,6 +27,22 @@ const validationSchema = yup.object({
 function SignUp() {
   const [error, setError] = useState(null);
 
+  // login sayfasına başarılı mesajıyla git
+  const handleSignUp = (values, { resetForm }) => {
+    const { confirmPassword, ...userCredentials } = values;
+    signUp(userCredentials)
+      .then((data) => {
+        setError(null);
+        resetForm();
+        router.push("/login");
+        console.log(data);
+      })
+      .catch((error) => {
+        setError(error);
+        console.log(error);
+      });
+  };
+
   const {
     handleSubmit,
     handleChange,
@@ -48,26 +64,11 @@ function SignUp() {
     validationSchema,
   });
 
-  // login sayfasına başarılı mesajıyla git
-  const handleSignUp = (values, { resetForm }) => {
-    const { confirmPassword, ...userCredentials } = values;
-    signUp(userCredentials)
-      .then((data) => {
-        setError(null);
-        resetForm();
-        router.push("/login");
-        console.log(data);
-      })
-      .catch((error) => {
-        setError(error);
-      });
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}> Sign Up</Text>
       <View>
-        <Text style={styles.errorText}>{error ? error : ""}</Text>
+        {/* <Text style={styles.errorText}>{error ? error : ""}</Text> */}
       </View>
       <View style={styles.inputView}>
         <TextInput
